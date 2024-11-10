@@ -1,5 +1,6 @@
 import asyncio
 from math import sin
+import os
 
 from websockets.asyncio.server import serve
 
@@ -22,8 +23,10 @@ async def handler(websocket):
         await websocket.send(msg[:-1])
         await asyncio.sleep(0.5)
 
+PORT = int(os.environ.get("PORT", 8080))
+
 async def main():
-    async with serve(handler, "192.168.1.74", 8001):
+    async with serve(handler, "0.0.0.0", PORT):
         await asyncio.get_running_loop().create_future()  # run forever
 
 
